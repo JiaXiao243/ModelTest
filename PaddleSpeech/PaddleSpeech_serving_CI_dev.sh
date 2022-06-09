@@ -1,9 +1,8 @@
 unset GREP_OPTIONS
 
-log_path=log
+basepath=`pwd`
 mkdir log
-
-echo 'PaddleSpeech_Serving Test：' | tee  $log_path/result.log
+log_path=${basepath}/log
 
 printFun(){
     if [ $? -eq 0 ];then
