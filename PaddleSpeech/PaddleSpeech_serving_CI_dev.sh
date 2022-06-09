@@ -3,6 +3,8 @@ unset GREP_OPTIONS
 log_path=log
 mkdir log
 
+echo 'PaddleSpeech_Serving Test：' | tee  $log_path/result.log
+
 printFun(){
     if [ $? -eq 0 ];then
     echo -e "\033[33m $1  predict  successfully!\033[0m"|tee -a $log_path/result.log
@@ -70,7 +72,7 @@ paddlespeech_server start --config_file ./conf/tts_online_application.yaml 2>&1 
 sleep 20
 
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
-printFun tts_offline_http
+printFun tts_online_http
 
 # websocket
 sed -i 's/http/websocket/g' ./conf/tts_online_application.yaml
@@ -80,7 +82,7 @@ killFun
 paddlespeech_server start --config_file ./conf/tts_online_application.yaml 2>&1 &
 sleep 20
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
-printFun tts_offline_websockert
+printFun tts_online_websockert
 killFun
 
 
@@ -99,4 +101,13 @@ paddlespeech_client asr_online --server_ip 127.0.0.1 --port 8090 --input ./zh.wa
 printFun asr_online_websockert 
 killFun
 
-
+# result
+num=`cat $log_path/result.log | grep "failed" | wc -l`
+if [ "${num}" -gt "0" ];then
+echo -e "-----------------------------base cases-----------------------------"
+cat $log_path/result.log | grep "failed"
+echo -e "--------------------------------------------------------------------"
+exit 1
+else
+exit 0
+fi
