@@ -1,13 +1,13 @@
 chcp 65001
 
-set PATH=C:\Windows\System32; %PATH%
+set PATH=C:\Program Files (x86)\GnuWin32; %PATH%
 
 rem paddlespeech
 python -m pip uninstall -y paddlespeech
 python -m pip install .
 
-export http_proxy=
-export https_proxy=
+set http_proxy=
+set https_proxy=
 
 python 
 rem offline
