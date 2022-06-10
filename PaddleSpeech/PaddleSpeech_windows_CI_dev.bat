@@ -43,8 +43,7 @@ rem  http
 start paddlespeech_server start --config_file ./conf/tts_online_application.yaml 2>&1 &
 call :timeoutFun 30
 
-paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "�~B�好�~L欢�~N使�~T��~Y�度�~^桨语�~_��~P~H�~H~P�~\~M�~J��~@~B" --output output..
-wav
+paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "�~B�好�~L欢�~N使�~T��~Y�度�~^桨语�~_��~P~H�~H~P�~\~M�~J��~@~B" --output outwav
 call :printFun tts_online_http
 call :killFun
 
@@ -55,8 +54,7 @@ rem sed -i "s/device: 'cpu'/device: 'gpu:5'/g" ./conf/tts_online_application.yam
 start paddlespeech_server start --config_file ./conf/tts_online_application.yaml 2>&1 &
 call :timeoutFun 30
 
-paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "�~B�好�~L欢�~N使�~T��~Y�度�~^桨语�~_��~P~H�~H~P�~\~M�~J��~@~B" --output ouu
-tput.wav
+paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "�~B�好�~L欢�~N使�~T��~Y�度�~^桨语�~_��~P~H�~H~P�~\~M�~J��~@~B" --ooutput.wav
 call :printFun tts_online_websockert
 call :killFun
 
