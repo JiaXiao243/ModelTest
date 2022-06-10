@@ -126,7 +126,7 @@ sed -i 's/http/websocket/g' ./conf/tts_online_application.yaml
 killFun
 
 paddlespeech_server start --config_file ./conf/tts_online_application.yaml 2>&1 &
-sleep 20
+sleep 60
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_online_websockert
 killFun
@@ -141,7 +141,7 @@ fi
 # sed -i "s/device: 'cpu' /device: 'gpu:5'/g"  ./conf/ws_conformer_wenetspeech_application.yaml
 paddlespeech_server start --config_file ./conf/ws_conformer_wenetspeech_application.yaml 2>&1 &
 
-sleep 20
+sleep 60
 # asr
 paddlespeech_client asr_online --server_ip 127.0.0.1 --port 8090 --input ./zh.wav
 printFun asr_online_websockert 
