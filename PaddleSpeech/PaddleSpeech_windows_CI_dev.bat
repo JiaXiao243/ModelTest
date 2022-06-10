@@ -3,7 +3,9 @@ chcp 65001
 set PATH=C:\Program Files (x86)\GnuWin32; %PATH%
 md log
 
-set log_path=%~dp0\log
+set log_path=%~dp0log
+echo %log_path%
+
 rem paddlespeech
 python -m pip uninstall -y paddlespeech
 python -m pip install .
@@ -94,16 +96,20 @@ EXIT /B 0
 :printFun
 if not %errorlevel% == 0 (
         echo  %~1 predict failed!
-        echo  %~1 predict failed! >> %log_path%/result.log
+        echo  %~1 predict failed! >> %log_path%\result.log
 ) else (
         echo  %~1 predict successfully!
-        echo  %~1 predict successfully! >> %log_path%/result.log
+        echo  %~1 predict successfully! >> %log_path%\result.log
 )
 EXIT /B 0
 
-findstr "failed" >> %log_path%/result.log >nul
-if errorlevel 0 (
-echo æfialed!!
+
+findstr "failed" %log_path%\result.log >nul
+if %errorlevel%==0 (
+echo test_case failed!!!
+EXIT /B 1
 ) else (
-echo success!!!
+echo test_case success!!!
+EXIT /B 0
 )
+
