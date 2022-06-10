@@ -44,7 +44,7 @@ call :killFun
 rem  online_tts
 cd ../streaming_tts_server
 rem  http
-start paddlespeech_server start --config_file ./conf/tts_online_application.yaml 2>&1 &
+start paddlespeech_server start --config_file ./conf/tts_online_application.yaml
 call :timeoutFun 30
 
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "�~B�好�~L欢�~N使�~T��~Y�度�~^桨语�~_��~P~H�~H~P�~\~M�~J��~@~B" --output output.wav
@@ -55,7 +55,7 @@ rem websocket
 set sed="C:\Program Files\Git\usr\bin\sed.exe"
 %sed% -i s/"http"/"websocket"/g ./conf/tts_online_application.yaml
 rem sed -i "s/device: 'cpu'/device: 'gpu:5'/g" ./conf/tts_online_application.yaml
-start paddlespeech_server start --config_file ./conf/tts_online_application.yaml 2>&1 &
+start paddlespeech_server start --config_file ./conf/tts_online_application.yaml
 call :timeoutFun 30
 
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "�~B�好�~L欢�~N使�~T��~Y�度�~^桨语�~_��~P~H�~H~P�~\~M�~J��~@~B" --output output.wav
@@ -67,7 +67,7 @@ cd ../streaming_asr_server
 wget -c https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav https://paddlespeech.bj.bcebos.com/PaddleAudio/en.wav
 
 rem sed -i "s/device: 'cpu' /device: 'gpu:5'/g"  ./conf/ws_conformer_wenetspeech_application.yaml
-start paddlespeech_server start --config_file ./conf/ws_conformer_wenetspeech_application.yaml 2>&1 &
+start paddlespeech_server start --config_file ./conf/ws_conformer_wenetspeech_application.yaml
 call :timeoutFun 30
 
 paddlespeech_client asr_online --server_ip 127.0.0.1 --port 8090 --input ./zh.wav
