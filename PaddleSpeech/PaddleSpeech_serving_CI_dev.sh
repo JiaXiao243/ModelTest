@@ -80,7 +80,7 @@ fi
 # sed -i "s/device: /device: 'cpu'/g"  ./conf/application.yaml
 paddlespeech_server start --config_file ./conf/application.yaml 2>&1 &
 
-sleep 300
+sleep 360
 echo '!!!'
 ps aux | grep paddlespeech_server | grep -v grep
 ps aux | grep paddlespeech_server | grep -v grep | wc -l
@@ -141,7 +141,7 @@ fi
 # sed -i "s/device: 'cpu' /device: 'gpu:5'/g"  ./conf/ws_conformer_wenetspeech_application.yaml
 paddlespeech_server start --config_file ./conf/ws_conformer_wenetspeech_application.yaml 2>&1 &
 
-sleep 60
+sleep 120
 # asr
 paddlespeech_client asr_online --server_ip 127.0.0.1 --port 8090 --input ./zh.wav
 printFun asr_online_websockert 
