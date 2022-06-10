@@ -119,6 +119,7 @@ sleep 60
 
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_online_http
+killFun
 
 # websocket
 sed -i 's/http/websocket/g' ./conf/tts_online_application.yaml

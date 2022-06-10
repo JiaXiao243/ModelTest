@@ -75,11 +75,11 @@ sleep 60
 
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "�~B�好�~L欢�~N使�~T��~Y�度�~^桨语�~_��~P~H�~H~P�~\~M�~J��~@~B" --output output.wav
 printFun tts_online_http
+killFun
 
 # websocket
 sed -i 's/http/websocket/g' ./conf/tts_online_application.yaml
 # sed -i "s/device: 'cpu'/device: 'gpu:5'/g" ./conf/tts_online_application.yaml
-killFun
 
 paddlespeech_server start --config_file ./conf/tts_online_application.yaml 2>&1 &
 sleep 60
