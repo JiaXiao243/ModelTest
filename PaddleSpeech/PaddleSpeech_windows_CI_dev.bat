@@ -1,7 +1,9 @@
 chcp 65001
 
 set PATH=C:\Program Files (x86)\GnuWin32; %PATH%
+md log
 
+set log_path=%~dp0\log
 rem paddlespeech
 python -m pip uninstall -y paddlespeech
 python -m pip install .
@@ -43,7 +45,7 @@ rem  http
 start paddlespeech_server start --config_file ./conf/tts_online_application.yaml 2>&1 &
 call :timeoutFun 30
 
-paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "�~B�好�~L欢�~N使�~T��~Y�度�~^桨语�~_��~P~H�~H~P�~\~M�~J��~@~B" --output outwav
+paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "�~B�好�~L欢�~N使�~T��~Y�度�~^桨语�~_��~P~H�~H~P�~\~M�~J��~@~B" --output output.wav
 call :printFun tts_online_http
 call :killFun
 
@@ -54,7 +56,7 @@ rem sed -i "s/device: 'cpu'/device: 'gpu:5'/g" ./conf/tts_online_application.yam
 start paddlespeech_server start --config_file ./conf/tts_online_application.yaml 2>&1 &
 call :timeoutFun 30
 
-paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "�~B�好�~L欢�~N使�~T��~Y�度�~^桨语�~_��~P~H�~H~P�~\~M�~J��~@~B" --ooutput.wav
+paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "�~B�好�~L欢�~N使�~T��~Y�度�~^桨语�~_��~P~H�~H~P�~\~M�~J��~@~B" --output output.wav
 call :printFun tts_online_websockert
 call :killFun
 
@@ -92,8 +94,16 @@ EXIT /B 0
 :printFun
 if not %errorlevel% == 0 (
         echo  %~1 predict failed!
+        echo  %~1 predict failed! >> %log_path%/result.log
 ) else (
         echo  %~1 predict successfully!
+        echo  %~1 predict successfully! >> %log_path%/result.log
 )
 EXIT /B 0
 
+findstr "failed" >> %log_path%/result.log >nul
+if errorlevel 0 (
+echo �fialed!!
+) else (
+echo success!!!
+)
