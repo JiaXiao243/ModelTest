@@ -88,7 +88,7 @@ rem timeout /nobreak /t 30
 EXIT /B 0
 
 :killFun
-taskkill /f /im /T paddlespeech_server*
+taskkill /f /im paddlespeech_server*
 rem taskkill /f /im python.exe
 EXIT /B 0
 
