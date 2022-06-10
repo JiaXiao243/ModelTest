@@ -115,7 +115,7 @@ killFun
 cd ../streaming_tts_server
 # http
 paddlespeech_server start --config_file ./conf/tts_online_application.yaml 2>&1 &
-sleep 20
+sleep 60
 
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_online_http
