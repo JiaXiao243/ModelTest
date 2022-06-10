@@ -80,7 +80,7 @@ fi
 # sed -i "s/device: /device: 'cpu'/g"  ./conf/application.yaml
 paddlespeech_server start --config_file ./conf/application.yaml 2>&1 &
 
-sleep 120
+sleep 300
 echo '!!!'
 ps aux | grep paddlespeech_server | grep -v grep
 ps aux | grep paddlespeech_server | grep -v grep | wc -l
