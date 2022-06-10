@@ -1,5 +1,15 @@
 chcp 65001
 
+set PATH=C:\Windows\System32; %PATH%
+
+rem paddlespeech
+python -m pip uninstall -y paddlespeech
+python -m pip install .
+
+export http_proxy=
+export https_proxy=
+
+python 
 rem offline
 cd demos/speech_server
 wget -c https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav https://paddlespeech.bj.bcebos.com/PaddleAudio/en.wav
