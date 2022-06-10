@@ -1,5 +1,52 @@
 unset GREP_OPTIONS
+set -x
+# echo ${cudaid1}
+echo ${cudaid2}
+echo ${Data_path}
+echo ${paddle_compile}
+echo ${model_flag}
 
+mkdir run_env_py37;
+ln -s $(which python3.7) run_env_py37/python;
+ln -s $(which pip3.7) run_env_py37/pip;
+export PATH=$(pwd)/run_env_py37:${PATH};
+export http_proxy=${http_proxy}
+export https_proxy=${https_proxy}
+export no_proxy=bcebos.com;
+python -m pip install pip==20.2.4 --ignore-installed;
+python -m pip install $4 --no-cache-dir --ignore-installed;
+apt-get update
+if [[ $5 == 'all' ]];then
+   apt-get install -y sox pkg-config libflac-dev libogg-dev libvorbis-dev libboost-dev swig python3-dev
+fi
+pushd tools; make virtualenv.done; popd
+if [ $? -ne 0 ];then
+    exit 1
+fi
+source tools/venv/bin/activate
+python -m pip install pip==20.2.4 --ignore-installed;
+python -m pip install $4 --no-cache-dir
+python -m pip install numpy==1.20.1 --ignore-installed
+python -m pip install pyparsing==2.4.7 --ignore-installed
+#pip install -e .
+pip install .
+# fix protobuf upgrade
+python -m pip uninstall protobuf -y
+python -m pip install protobuf==3.20.1
+python -m pip list | grep protobuf
+python -c "import sys; print('python version:',sys.version_info[:])";
+
+#system
+if [ -d "/etc/redhat-release" ]; then
+   echo "######  system centos"
+else
+   echo "######  system linux"
+fi
+
+python -c 'import paddle;print(paddle.version.commit)'
+
+
+# start
 basepath=`pwd`
 mkdir log
 log_path=${basepath}/log
@@ -19,7 +66,7 @@ ps aux | grep paddlespeech_server | awk '{print $2}' | xargs kill -9
 
 
 # paddlespeech
-python -m pip -y uninstall paddlespeech
+python -m pip uninstall -y paddlespeech
 python -m pip install .
 
 unset http_proxy
