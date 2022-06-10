@@ -36,7 +36,6 @@ rem text
 paddlespeech_client text --server_ip 127.0.0.1 --port 8090 --input "我认为跑步最重要的就是给我带来了身体健康"
 call :printFun text_offline
 call :killFun
-call :killFun
 
 rem  online_tts
 cd ../streaming_tts_server
