@@ -123,7 +123,6 @@ printFun tts_online_http
 # websocket
 sed -i 's/http/websocket/g' ./conf/tts_online_application.yaml
 # sed -i "s/device: 'cpu'/device: 'gpu:5'/g" ./conf/tts_online_application.yaml
-killFun
 
 paddlespeech_server start --config_file ./conf/tts_online_application.yaml 2>&1 &
 sleep 60
