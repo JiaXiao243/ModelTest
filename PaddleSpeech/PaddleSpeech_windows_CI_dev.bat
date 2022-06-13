@@ -13,7 +13,6 @@ python -m pip install .
 set http_proxy=
 set https_proxy=
 
-python 
 rem offline
 cd demos/speech_server
 wget -c https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav https://paddlespeech.bj.bcebos.com/PaddleAudio/en.wav
@@ -76,14 +75,6 @@ call :printFun asr_online_websockert
 call :killFun
 
 rem function
-:printFun
-if not %errorlevel% == 0 (
-        echo  %~1 predict failed!
-) else (
-        echo  %~1 predict successfully!
-)
-EXIT /B 0
-
 :timeoutFun
 ping -n %~1 127.0.0.1 >NUL
 rem timeout /nobreak /t 30
