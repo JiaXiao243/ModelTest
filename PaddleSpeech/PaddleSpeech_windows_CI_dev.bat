@@ -17,8 +17,8 @@ rem offline
 cd demos/speech_server
 wget -c https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav https://paddlespeech.bj.bcebos.com/PaddleAudio/en.wav
 rem sed -i "s/device: /device: 'cpu'/g"  ./conf/application.yaml
-start paddlespeech_server start --config_file ./conf/application.yaml
-call :timeoutFun 60
+start paddlespeech_server start --config_file ./conf/application.yaml > speech_server.log 2>&1 
+call :timeoutFun 120
 
 rem asr
 paddlespeech_client asr --server_ip 127.0.0.1 --port 8090 --input ./zh.wav
