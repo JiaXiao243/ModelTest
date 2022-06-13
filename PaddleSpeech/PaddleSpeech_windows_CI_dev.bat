@@ -47,18 +47,19 @@ rem  http
 start paddlespeech_server start --config_file ./conf/tts_online_application.yaml
 call :timeoutFun 30
 
-paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "�~B�好�~L欢�~N使�~T��~Y�度�~^桨语�~_��~P~H�~H~P�~\~M�~J��~@~B" --output output.wav
+paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "我认为跑步最重要的就是给我带来了身体健康" --output output.wav
 call :printFun tts_online_http
 call :killFun
 
 rem websocket
 set sed="C:\Program Files\Git\usr\bin\sed.exe"
 %sed% -i s/"http"/"websocket"/g ./conf/tts_online_application.yaml
+type ./conf/tts_online_application.yaml
 rem sed -i "s/device: 'cpu'/device: 'gpu:5'/g" ./conf/tts_online_application.yaml
 start paddlespeech_server start --config_file ./conf/tts_online_application.yaml
 call :timeoutFun 30
 
-paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "�~B�好�~L欢�~N使�~T��~Y�度�~^桨语�~_��~P~H�~H~P�~\~M�~J��~@~B" --output output.wav
+paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "我认为跑步最重要的就是给我带来了身体健康" --output output.wav
 call :printFun tts_online_websockert
 call :killFun
 
