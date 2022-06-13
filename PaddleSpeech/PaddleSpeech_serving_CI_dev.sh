@@ -80,7 +80,7 @@ fi
 # sed -i "s/device: /device: 'cpu'/g"  ./conf/application.yaml
 paddlespeech_server start --config_file ./conf/application.yaml 2>&1 &
 
-sleep 360
+sleep 480
 echo '!!!'
 ps aux | grep paddlespeech_server | grep -v grep
 ps aux | grep paddlespeech_server | grep -v grep | wc -l
@@ -115,7 +115,7 @@ killFun
 cd ../streaming_tts_server
 # http
 paddlespeech_server start --config_file ./conf/tts_online_application.yaml 2>&1 &
-sleep 60
+sleep 120
 
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_online_http
@@ -126,7 +126,7 @@ sed -i "" 's/http/websocket/g' ./conf/tts_online_application.yaml
 # sed -i "s/device: 'cpu'/device: 'gpu:5'/g" ./conf/tts_online_application.yaml
 
 paddlespeech_server start --config_file ./conf/tts_online_application.yaml 2>&1 &
-sleep 60
+sleep 120
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_online_websockert
 killFun
