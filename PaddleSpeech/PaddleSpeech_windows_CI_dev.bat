@@ -75,6 +75,16 @@ paddlespeech_client asr_online --server_ip 127.0.0.1 --port 8090 --input ./zh.wa
 call :printFun asr_online_websockert
 call :killFun
 
+rem result 
+findstr "failed" %log_path%\result.log >nul
+if %errorlevel%==0 (
+echo test_case failed!!!
+EXIT /B 1
+) else (
+echo test_case success!!!
+EXIT /B 0
+)
+
 rem function
 :timeoutFun
 ping -n %~1 127.0.0.1 >NUL
@@ -95,14 +105,4 @@ if not %errorlevel% == 0 (
         echo  %~1 predict successfully! >> %log_path%\result.log
 )
 EXIT /B 0
-
-
-findstr "failed" %log_path%\result.log >nul
-if %errorlevel%==0 (
-echo test_case failed!!!
-EXIT /B 1
-) else (
-echo test_case success!!!
-EXIT /B 0
-)
 
