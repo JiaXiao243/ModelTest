@@ -24,7 +24,7 @@ call :timeoutFun 120
 rem asr
 paddlespeech_client asr --server_ip 127.0.0.1 --port 8090 --input ./zh.wav
 call :printFun asr_offline
-paddlespeech_client tts --server_ip 127.0.0.1 --port 8090 --input "æ‚¨å¥½ï¼Œæ¬¢è¿ä½¿ç”¨ç™¾åº¦é£æ¡¨è¯­éŸ³åˆæˆæœåŠ¡ã€‚" --output output.wav
+paddlespeech_client tts --server_ip 127.0.0.1 --port 8090 --input "ÄúºÃ£¬»¶Ó­Ê¹ÓÃ°Ù¶È·É½°ÓïÒôºÏ³É·şÎñ¡£" --output output.wav
 call :printFun tts_offline
 paddlespeech_client cls --server_ip 127.0.0.1 --port 8090 --input ./zh.wav
 call :printFun cls_offline
@@ -37,7 +37,7 @@ call :printFun vector_spk_offline
 paddlespeech_client vector --task score  --server_ip 127.0.0.1 --port 8090 --enroll 85236145389.wav --test 85236145389.wav
 call :printFun vector_score_offline
 rem text
-paddlespeech_client text --server_ip 127.0.0.1 --port 8090 --input "æˆ‘è®¤ä¸ºè·‘æ­¥æœ€é‡è¦çš„å°±æ˜¯ç»™æˆ‘å¸¦æ¥äº†èº«ä½“å¥åº·"
+paddlespeech_client text --server_ip 127.0.0.1 --port 8090 --input "ÎÒÈÏÎªÅÜ²½×îÖØÒªµÄ¾ÍÊÇ¸øÎÒ´øÀ´ÁËÉíÌå½¡¿µ"
 call :printFun text_offline
 call :killFun
 
@@ -47,7 +47,7 @@ rem  http
 start paddlespeech_server start --config_file ./conf/tts_online_application.yaml &&pause
 call :timeoutFun 30
 
-paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "æˆ‘è®¤ä¸ºè·‘æ­¥æœ€é‡è¦çš„å°±æ˜¯ç»™æˆ‘å¸¦æ¥äº†èº«ä½“å¥åº·" --output output.wav
+paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "ÎÒÈÏÎªÅÜ²½×îÖØÒªµÄ¾ÍÊÇ¸øÎÒ´øÀ´ÁËÉíÌå½¡¿µ" --output output.wav
 call :printFun tts_online_http
 call :killFun
 
@@ -59,7 +59,7 @@ rem sed -i "s/device: 'cpu'/device: 'gpu:5'/g" ./conf/tts_online_application.yam
 start paddlespeech_server start --config_file ./conf/tts_online_application.yaml &&pause
 call :timeoutFun 30
 
-paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "æˆ‘è®¤ä¸ºè·‘æ­¥æœ€é‡è¦çš„å°±æ˜¯ç»™æˆ‘å¸¦æ¥äº†èº«ä½“å¥åº·" --output output.wav
+paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "ÎÒÈÏÎªÅÜ²½×îÖØÒªµÄ¾ÍÊÇ¸øÎÒ´øÀ´ÁËÉíÌå½¡¿µ" --output output.wav
 call :printFun tts_online_websockert
 call :killFun
 
