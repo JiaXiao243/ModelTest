@@ -53,7 +53,7 @@ printFun cls_offline
 # speaker vertification
 if [ ! -f "85236145389.wav" ]; then
 wget -c https://paddlespeech.bj.bcebos.com/vector/audio/85236145389.wav
-cp 85236145389.wav 123456789.wav
+wget -c https://paddlespeech.bj.bcebos.com/vector/audio/123456789.wav
 fi
 
 paddlespeech_client vector --task spk  --server_ip 127.0.0.1 --port 8090 --input 85236145389.wav

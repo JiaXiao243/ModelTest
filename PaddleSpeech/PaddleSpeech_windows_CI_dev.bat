@@ -31,10 +31,10 @@ call :printFun cls_offline
 rem speaker vertification
 
 wget -c https://paddlespeech.bj.bcebos.com/vector/audio/85236145389.wav
-rem cp 85236145389.wav 123456789.wav
+wget -c https://paddlespeech.bj.bcebos.com/vector/audio/123456789.wav
 paddlespeech_client vector --task spk  --server_ip 127.0.0.1 --port 8090 --input 85236145389.wav
 call :printFun vector_spk_offline
-paddlespeech_client vector --task score  --server_ip 127.0.0.1 --port 8090 --enroll 85236145389.wav --test 85236145389.wav
+paddlespeech_client vector --task score  --server_ip 127.0.0.1 --port 8090 --enroll 85236145389.wav --test 123456789.wav
 call :printFun vector_score_offline
 rem text
 paddlespeech_client text --server_ip 127.0.0.1 --port 8090 --input "我认为跑步最重要的就是给我带来了身体健康"
