@@ -1,5 +1,5 @@
 @echo off
-chcp 65001
+rem chcp 65001
 
 set PATH=C:\Program Files (x86)\GnuWin32; %PATH%
 md log
