@@ -79,6 +79,7 @@ rem result
 findstr "failed" %log_path%\result.log >nul
 if %errorlevel%==0 (
 echo test_case failed!!!
+type %log_path%\result.log | grep "failed"
 EXIT /B 1
 ) else (
 echo test_case success!!!
