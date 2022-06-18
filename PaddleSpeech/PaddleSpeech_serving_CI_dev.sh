@@ -60,6 +60,11 @@ else
 fi
 }
 
+serverPrintFun(){
+   echo print server log information:
+   cat $1
+}
+
 killFun(){
 ps aux | grep paddlespeech_server | awk '{print $2}' | xargs kill -9
 }
@@ -80,7 +85,7 @@ if [ ! -f "zh.wav" ]; then
 wget -c https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav https://paddlespeech.bj.bcebos.com/PaddleAudio/en.wav
 fi
 # sed -i "s/device: /device: 'cpu'/g"  ./conf/application.yaml
-paddlespeech_server start --config_file ./conf/application.yaml >> $log_path/server.log 2>&1 &
+paddlespeech_server start --config_file ./conf/application.yaml >> $log_path/server_offline.log 2>&1 &
 
 sleep 180
 echo '!!!'
@@ -94,6 +99,7 @@ paddlespeech_client tts --server_ip 127.0.0.1 --port 8090 --input "您好，欢�
 printFun tts_offline
 paddlespeech_client cls --server_ip 127.0.0.1 --port 8090 --input ./zh.wav
 printFun cls_offline
+
 
 # speaker vertification
 if [ ! -f "85236145389.wav" ]; then
@@ -110,27 +116,30 @@ printFun vector_score_offline
 paddlespeech_client text --server_ip 127.0.0.1 --port 8090 --input "我认为跑步最重要的就是给我带来了身体健康"
 printFun text_offline
 
+serverPrintFun $log_path/server_offline.log
 killFun
 
 
 ## online_tts
 cd ../streaming_tts_server
 # http
-paddlespeech_server start --config_file ./conf/tts_online_application.yaml >> $log_path/server.log 2>&1 &
+paddlespeech_server start --config_file ./conf/tts_online_application.yaml >> $log_path/server_tts_online_http.log 2>&1 &
 sleep 60
 
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_online_http
+serverPrintFun $log_path/server_tts_online_http.log
 killFun
 
 # websocket
 sed -i 's/http/websocket/g' ./conf/tts_online_application.yaml
 # sed -i "s/device: 'cpu'/device: 'gpu:5'/g" ./conf/tts_online_application.yaml
 
-paddlespeech_server start --config_file ./conf/tts_online_application.yaml >> $log_path/server.log 2>&1 &
+paddlespeech_server start --config_file ./conf/tts_online_application.yaml >> $log_path/server_tts_online_websocket.log 2>&1 &
 sleep 60
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_online_websockert
+serverPrintFun $log_path/server_tts_online_websocket.log
 killFun
 
 
@@ -141,12 +150,13 @@ wget -c https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav https://paddlespee
 fi 
 
 # sed -i "s/device: 'cpu' /device: 'gpu:5'/g"  ./conf/ws_conformer_wenetspeech_application.yaml
-paddlespeech_server start --config_file ./conf/ws_conformer_wenetspeech_application.yaml >> $log_path/server.log 2>&1 &
+paddlespeech_server start --config_file ./conf/ws_conformer_wenetspeech_application.yaml >> $log_path/asr_online_websockert 2>&1 &
 
 sleep 120
 # asr
 paddlespeech_client asr_online --server_ip 127.0.0.1 --port 8090 --input ./zh.wav
 printFun asr_online_websockert 
+serverPrintFun $log_path/asr_online_websockert.log
 killFun
 
 # result
