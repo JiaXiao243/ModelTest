@@ -150,7 +150,7 @@ wget -c https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav https://paddlespee
 fi 
 
 # sed -i "s/device: 'cpu' /device: 'gpu:5'/g"  ./conf/ws_conformer_wenetspeech_application.yaml
-paddlespeech_server start --config_file ./conf/ws_conformer_wenetspeech_application.yaml >> $log_path/asr_online_websockert 2>&1 &
+paddlespeech_server start --config_file ./conf/ws_conformer_wenetspeech_application.yaml >> $log_path/asr_online_websockert.log 2>&1 &
 
 sleep 90
 # asr
