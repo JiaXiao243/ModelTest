@@ -87,7 +87,7 @@ fi
 # sed -i "s/device: /device: 'cpu'/g"  ./conf/application.yaml
 paddlespeech_server start --config_file ./conf/application.yaml >> $log_path/server_offline.log 2>&1 &
 
-sleep 180
+sleep 240
 echo '!!!'
 ps aux | grep paddlespeech_server | grep -v grep
 ps aux | grep paddlespeech_server | grep -v grep | wc -l
@@ -124,7 +124,7 @@ killFun
 cd ../streaming_tts_server
 # http
 paddlespeech_server start --config_file ./conf/tts_online_application.yaml >> $log_path/server_tts_online_http.log 2>&1 &
-sleep 60
+sleep 90
 
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_online_http
@@ -136,7 +136,7 @@ sed -i 's/http/websocket/g' ./conf/tts_online_application.yaml
 # sed -i "s/device: 'cpu'/device: 'gpu:5'/g" ./conf/tts_online_application.yaml
 
 paddlespeech_server start --config_file ./conf/tts_online_application.yaml >> $log_path/server_tts_online_websocket.log 2>&1 &
-sleep 60
+sleep 90
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_online_websockert
 serverPrintFun $log_path/server_tts_online_websocket.log
@@ -152,7 +152,7 @@ fi
 # sed -i "s/device: 'cpu' /device: 'gpu:5'/g"  ./conf/ws_conformer_wenetspeech_application.yaml
 paddlespeech_server start --config_file ./conf/ws_conformer_wenetspeech_application.yaml >> $log_path/asr_online_websockert 2>&1 &
 
-sleep 120
+sleep 90
 # asr
 paddlespeech_client asr_online --server_ip 127.0.0.1 --port 8090 --input ./zh.wav
 printFun asr_online_websockert 
