@@ -58,8 +58,9 @@ fi
 }
 
 serverPrintFun(){
-   echo print server log information:
+   echo **************************print server log information**************************
    cat $1
+   echo **************************** end server log ************************************
 }
 
 killFun(){
@@ -82,7 +83,7 @@ if [ ! -f "zh.wav" ]; then
 wget -c https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav https://paddlespeech.bj.bcebos.com/PaddleAudio/en.wav
 fi
 # sed -i "s/device: /device: 'cpu'/g"  ./conf/application.yaml
-paddlespeech_server start --config_file ./conf/application.yaml >> $log_path/server_offline.log 2>&1 &
+paddlespeech_server start --config_file ./conf/application.yaml > $log_path/server_offline.log 2>&1 &
 
 sleep 240
 echo '!!!'
@@ -120,7 +121,7 @@ killFun
 ## online_tts
 cd ../streaming_tts_server
 # http
-paddlespeech_server start --config_file ./conf/tts_online_application.yaml >> $log_path/server_tts_online_http.log 2>&1 &
+paddlespeech_server start --config_file ./conf/tts_online_application.yaml > $log_path/server_tts_online_http.log 2>&1 &
 sleep 90
 
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
@@ -132,7 +133,7 @@ killFun
 sed -i 's/http/websocket/g' ./conf/tts_online_application.yaml
 # sed -i "s/device: 'cpu'/device: 'gpu:5'/g" ./conf/tts_online_application.yaml
 
-paddlespeech_server start --config_file ./conf/tts_online_application.yaml >> $log_path/server_tts_online_websocket.log 2>&1 &
+paddlespeech_server start --config_file ./conf/tts_online_application.yaml > $log_path/server_tts_online_websocket.log 2>&1 &
 sleep 90
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_online_websockert
@@ -147,7 +148,7 @@ wget -c https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav https://paddlespee
 fi 
 
 # sed -i "s/device: 'cpu' /device: 'gpu:5'/g"  ./conf/ws_conformer_wenetspeech_application.yaml
-paddlespeech_server start --config_file ./conf/ws_conformer_wenetspeech_application.yaml >> $log_path/asr_online_websockert.log 2>&1 &
+paddlespeech_server start --config_file ./conf/ws_conformer_wenetspeech_application.yaml > $log_path/asr_online_websockert.log 2>&1 &
 
 sleep 90
 # asr
