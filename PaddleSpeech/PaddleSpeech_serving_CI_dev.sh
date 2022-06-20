@@ -14,23 +14,19 @@ export http_proxy=${http_proxy}
 export https_proxy=${https_proxy}
 export no_proxy=bcebos.com;
 apt-get update
-if [[ $5 == 'all' ]];then
-   apt-get install -y sox pkg-config libflac-dev libogg-dev libvorbis-dev libboost-dev swig python3-dev
-fi
+apt-get install -y libsndfile1
+
+
+# if [[ $5 == 'all' ]];then
+#    apt-get install -y sox pkg-config libflac-dev libogg-dev libvorbis-dev libboost-dev swig python3-dev
+# fi
 pushd tools; make virtualenv.done; popd
 if [ $? -ne 0 ];then
     exit 1
 fi
 source tools/venv/bin/activate
-python -m pip install pip==20.2.4 --ignore-installed;
+python -m pip install --upgrade pip;
 python -m pip install $4 --no-cache-dir
-python -m pip install numpy==1.20.1 --ignore-installed
-python -m pip install pyparsing==2.4.7 --ignore-installed
-
-# fix protobuf upgrade
-python -m pip uninstall protobuf -y
-python -m pip install protobuf==3.20.1
-python -m pip list | grep protobuf
 python -c "import sys; print('python version:',sys.version_info[:])";
 
 #system
@@ -67,6 +63,18 @@ killFun(){
 ps aux | grep paddlespeech_server | awk '{print $2}' | xargs kill -9
 }
 
+# rand function
+function rand(){
+
+min=$1
+
+max=$(($2-$min+1))
+
+num=$(($RANDOM+1000000000)) #增加一个10位的数再求余
+
+echo $(($num%$max+$min))
+
+}
 
 # paddlespeech
 python -m pip uninstall -y paddlespeech
@@ -83,6 +91,10 @@ if [ ! -f "zh.wav" ]; then
 wget -c https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav https://paddlespeech.bj.bcebos.com/PaddleAudio/en.wav
 fi
 # sed -i "s/device: /device: 'cpu'/g"  ./conf/application.yaml
+
+rnd=$(rand 8000 9000)
+echo $rnd
+sed -i "7a port: $rnd"  ./conf/application.yaml
 paddlespeech_server start --config_file ./conf/application.yaml > $log_path/server_offline.log 2>&1 &
 
 sleep 240
@@ -91,11 +103,11 @@ ps aux | grep paddlespeech_server | grep -v grep
 ps aux | grep paddlespeech_server | grep -v grep | wc -l
 echo '!!!'
 # asr
-paddlespeech_client asr --server_ip 127.0.0.1 --port 8090 --input ./zh.wav
+paddlespeech_client asr --server_ip 127.0.0.1 --port $rnd --input ./zh.wav
 printFun asr_offline
-paddlespeech_client tts --server_ip 127.0.0.1 --port 8090 --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
+paddlespeech_client tts --server_ip 127.0.0.1 --port $rnd --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_offline
-paddlespeech_client cls --server_ip 127.0.0.1 --port 8090 --input ./zh.wav
+paddlespeech_client cls --server_ip 127.0.0.1 --port $rnd --input ./zh.wav
 printFun cls_offline
 
 
@@ -105,13 +117,13 @@ wget -c https://paddlespeech.bj.bcebos.com/vector/audio/85236145389.wav
 wget -c https://paddlespeech.bj.bcebos.com/vector/audio/123456789.wav
 fi
 
-paddlespeech_client vector --task spk  --server_ip 127.0.0.1 --port 8090 --input 85236145389.wav
+paddlespeech_client vector --task spk  --server_ip 127.0.0.1 --port $rnd --input 85236145389.wav
 printFun vector_spk_offline
-paddlespeech_client vector --task score  --server_ip 127.0.0.1 --port 8090 --enroll 85236145389.wav --test 123456789.wav
+paddlespeech_client vector --task score  --server_ip 127.0.0.1 --port $rnd --enroll 85236145389.wav --test 123456789.wav
 printFun vector_score_offline
 
 # text
-paddlespeech_client text --server_ip 127.0.0.1 --port 8090 --input "我认为跑步最重要的就是给我带来了身体健康"
+paddlespeech_client text --server_ip 127.0.0.1 --port $rnd --input "我认为跑步最重要的就是给我带来了身体健康"
 printFun text_offline
 
 serverPrintFun $log_path/server_offline.log
@@ -121,10 +133,13 @@ killFun
 ## online_tts
 cd ../streaming_tts_server
 # http
+rnd=$(rand 8000 9000)
+echo $rnd
+sed -i "7a port: $rnd"  ./conf/tts_online_application.yaml
 paddlespeech_server start --config_file ./conf/tts_online_application.yaml > $log_path/server_tts_online_http.log 2>&1 &
 sleep 90
 
-paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
+paddlespeech_client tts_online --server_ip 127.0.0.1 --port $rnd --protocol http --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_online_http
 serverPrintFun $log_path/server_tts_online_http.log
 killFun
@@ -135,7 +150,7 @@ sed -i 's/http/websocket/g' ./conf/tts_online_application.yaml
 
 paddlespeech_server start --config_file ./conf/tts_online_application.yaml > $log_path/server_tts_online_websocket.log 2>&1 &
 sleep 90
-paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
+paddlespeech_client tts_online --server_ip 127.0.0.1 --port $rnd --protocol websocket --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_online_websockert
 serverPrintFun $log_path/server_tts_online_websocket.log
 killFun
@@ -148,11 +163,14 @@ wget -c https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav https://paddlespee
 fi 
 
 # sed -i "s/device: 'cpu' /device: 'gpu:5'/g"  ./conf/ws_conformer_wenetspeech_application.yaml
+rnd=$(rand 8000 9000)
+echo $rnd
+sed -i "7a port: $rnd"  ./conf/ws_conformer_wenetspeech_application.yaml
 paddlespeech_server start --config_file ./conf/ws_conformer_wenetspeech_application.yaml > $log_path/asr_online_websockert.log 2>&1 &
 
 sleep 90
 # asr
-paddlespeech_client asr_online --server_ip 127.0.0.1 --port 8090 --input ./zh.wav
+paddlespeech_client asr_online --server_ip 127.0.0.1 --port $rnd --input ./zh.wav
 printFun asr_online_websockert 
 serverPrintFun $log_path/asr_online_websockert.log
 killFun
