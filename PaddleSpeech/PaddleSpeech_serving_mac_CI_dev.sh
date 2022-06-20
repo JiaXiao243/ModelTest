@@ -1,6 +1,3 @@
-python -c 'import paddle;print(paddle.version.commit)'
-python -c 'import ssl;ssl._create_default_https_context = ssl._create_unverified_context'
-
 # start
 basepath=`pwd`
 mkdir log
@@ -19,6 +16,12 @@ killFun(){
 ps aux | grep paddlespeech_server | awk '{print $2}' | xargs kill -9
 }
 
+displayFun(){
+num=`cat $1 | grep -i "error" | wc -l`
+if [ "${num}" -gt "0" ];then
+cat $1
+fi
+}
 
 # paddlespeech
 python -m pip uninstall -y paddlespeech
@@ -65,7 +68,7 @@ printFun vector_score_offline
 # text
 paddlespeech_client text --server_ip 127.0.0.1 --port 8090 --input "�~H~Q认为�~Q步�~\~@�~G~M�~A�~Z~D就�~X��~Y�~H~Q带�~]��~F身�~S�~A�康"
 printFun text_offline
-
+displayFun $log_path/offline_server.log
 killFun
 
 ## online_tts
@@ -77,6 +80,7 @@ cat $log_path/tts_online_http_server.log
 
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "�~B�好�~L欢�~N使�~T��~Y�度�~^桨语�~_��~P~H�~H~P�~\~M�~J��~@~B" --output output.wav
 printFun tts_online_http
+displayFun $log_path/tts_online_http_server.log
 killFun
 
 # websocket
@@ -88,6 +92,7 @@ sleep 60
 cat $log_path/tts_online_websocket_server.log
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "�~B�好�~L欢�~N使�~T��~Y�度�~^桨语�~_��~P~H�~H~P�~\~M�~J��~@~B" --output output.wav
 printFun tts_online_websockert
+displayFun $log_path/tts_online_websocket_server.log
 killFun
 
 
@@ -105,6 +110,7 @@ cat $log_path/asr_online_websocket_server.log
 # asr
 paddlespeech_client asr_online --server_ip 127.0.0.1 --port 8090 --input ./zh.wav
 printFun asr_online_websockert
+displayFun $log_path/asr_online_websocket_server.log
 killFun
 
 # result
