@@ -59,6 +59,13 @@ serverPrintFun(){
    echo **************************** end server log ************************************
 }
 
+displayFun(){
+num=`cat $1 | grep -i "error" | wc -l`
+if [ "${num}" -gt "0" ];then
+cat $1
+fi
+}
+
 killFun(){
 ps aux | grep paddlespeech_server | awk '{print $2}' | xargs kill -9
 }
@@ -126,7 +133,7 @@ printFun vector_score_offline
 paddlespeech_client text --server_ip 127.0.0.1 --port $rnd --input "我认为跑步最重要的就是给我带来了身体健康"
 printFun text_offline
 
-serverPrintFun $log_path/server_offline.log
+displayFun $log_path/server_offline.log
 killFun
 
 
@@ -141,7 +148,7 @@ sleep 90
 
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port $rnd --protocol http --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_online_http
-serverPrintFun $log_path/server_tts_online_http.log
+displayFun $log_path/server_tts_online_http.log
 killFun
 
 # websocket
@@ -152,7 +159,7 @@ paddlespeech_server start --config_file ./conf/tts_online_application.yaml > $lo
 sleep 90
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port $rnd --protocol websocket --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_online_websockert
-serverPrintFun $log_path/server_tts_online_websocket.log
+displayFun $log_path/server_tts_online_websocket.log
 killFun
 
 
@@ -172,7 +179,7 @@ sleep 90
 # asr
 paddlespeech_client asr_online --server_ip 127.0.0.1 --port $rnd --input ./zh.wav
 printFun asr_online_websockert 
-serverPrintFun $log_path/asr_online_websockert.log
+displayFun $log_path/asr_online_websockert.log
 killFun
 
 # result
