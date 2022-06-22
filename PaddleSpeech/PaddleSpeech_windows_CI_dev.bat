@@ -19,7 +19,7 @@ cd demos/speech_server
 wget -c https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav https://paddlespeech.bj.bcebos.com/PaddleAudio/en.wav
 rem sed -i "s/device: /device: 'cpu'/g"  ./conf/application.yaml
 start paddlespeech_server start --config_file ./conf/application.yaml &&pause
-call :timeoutFun 120
+call :timeoutFun 180
 
 rem asr
 paddlespeech_client asr --server_ip 127.0.0.1 --port 8090 --input ./zh.wav
@@ -57,7 +57,7 @@ set sed="C:\Program Files\Git\usr\bin\sed.exe"
 type ./conf/tts_online_application.yaml
 rem sed -i "s/device: 'cpu'/device: 'gpu:5'/g" ./conf/tts_online_application.yaml
 start paddlespeech_server start --config_file ./conf/tts_online_application.yaml  &&pause
-call :timeoutFun 30
+call :timeoutFun 60
 
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "我认为跑步最重要的就是给我带来了身体健康" --output output.wav
 call :printFun tts_online_websockert
@@ -69,7 +69,7 @@ wget -c https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav https://paddlespee
 
 rem sed -i "s/device: 'cpu' /device: 'gpu:5'/g"  ./conf/ws_conformer_wenetspeech_application.yaml
 start paddlespeech_server start --config_file ./conf/ws_conformer_wenetspeech_application.yaml  &&pause
-call :timeoutFun 30
+call :timeoutFun 60
 
 paddlespeech_client asr_online --server_ip 127.0.0.1 --port 8090 --input ./zh.wav
 call :printFun asr_online_websockert
