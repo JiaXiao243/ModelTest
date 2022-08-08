@@ -48,7 +48,7 @@ echo '!!!'
 # asr
 paddlespeech_client asr --server_ip 127.0.0.1 --port 8090 --input ./zh.wav
 printFun asr_offline
-paddlespeech_client tts --server_ip 127.0.0.1 --port 8090 --input "�~B�好�~L欢�~N使�~T��~Y�度�~^桨语�~_��~P~H�~H~P�~\~M�~J��~@~B" --output output.wav
+paddlespeech_client tts --server_ip 127.0.0.1 --port 8090 --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 
 printFun tts_offline
 paddlespeech_client cls --server_ip 127.0.0.1 --port 8090 --input ./zh.wav
@@ -66,7 +66,7 @@ paddlespeech_client vector --task score  --server_ip 127.0.0.1 --port 8090 --enr
 printFun vector_score_offline
 
 # text
-paddlespeech_client text --server_ip 127.0.0.1 --port 8090 --input "�~H~Q认为�~Q步�~\~@�~G~M�~A�~Z~D就�~X��~Y�~H~Q带�~]��~F身�~S�~A�康"
+paddlespeech_client text --server_ip 127.0.0.1 --port 8090 --input "我认为跑步最重要的就是给我带来了身体健康"
 printFun text_offline
 displayFun $log_path/offline_server.log
 killFun
@@ -78,7 +78,7 @@ paddlespeech_server start --config_file ./conf/tts_online_application.yaml >> $l
 sleep 60
 cat $log_path/tts_online_http_server.log
 
-paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "�~B�好�~L欢�~N使�~T��~Y�度�~^桨语�~_��~P~H�~H~P�~\~M�~J��~@~B" --output output.wav
+paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_online_http
 displayFun $log_path/tts_online_http_server.log
 killFun
@@ -90,7 +90,7 @@ sed -i "" 's/http/websocket/g' ./conf/tts_online_application.yaml
 paddlespeech_server start --config_file ./conf/tts_online_application.yaml >> $log_path/tts_online_websocket_server.log 2>&1 &
 sleep 60
 cat $log_path/tts_online_websocket_server.log
-paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "�~B�好�~L欢�~N使�~T��~Y�度�~^桨语�~_��~P~H�~H~P�~\~M�~J��~@~B" --output output.wav
+paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_online_websockert
 displayFun $log_path/tts_online_websocket_server.log
 killFun
