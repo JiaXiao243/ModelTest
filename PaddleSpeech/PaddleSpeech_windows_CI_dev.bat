@@ -100,6 +100,13 @@ taskkill /f /im paddlespeech_server*
 rem taskkill /f /im python.exe
 EXIT /B 0
 
+:displayFun
+rem num=`cat $1 | grep -i "error" | wc -l`
+rem if [ "${num}" -gt "0" ];then
+rem cat $1
+
+EXIT /B 0
+
 :printFun
 if not %errorlevel% == 0 (
         echo  %~1 predict failed!
