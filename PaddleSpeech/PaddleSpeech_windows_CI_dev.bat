@@ -78,6 +78,7 @@ call :killFun
 rem return script dir
 echo %~dp0
 cd %~dp0
+xcopy  "log\*"  D:\jiaxiao01\log\  /s /e /y /d
 
 rem result 
 findstr "failed" %log_path%\result.log >nul
