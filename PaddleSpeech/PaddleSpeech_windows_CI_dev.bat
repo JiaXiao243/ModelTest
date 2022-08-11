@@ -18,7 +18,7 @@ rem offline
 cd demos/speech_server
 wget -c https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav https://paddlespeech.bj.bcebos.com/PaddleAudio/en.wav
 rem sed -i "s/device: /device: 'cpu'/g"  ./conf/application.yaml
-start /b paddlespeech_server start --config_file ./conf/application.yaml > log\server_offline.log 2>&1
+start /b paddlespeech_server start --config_file ./conf/application.yaml > %log_path%\server_offline.log 2>&1
 call :timeoutFun 240
 
 rem asr
@@ -44,7 +44,7 @@ call :killFun
 rem  online_tts
 cd ../streaming_tts_server
 rem  http
-start /b paddlespeech_server start --config_file ./conf/tts_online_application.yaml > log\server_tts_online_http.log 2>&1
+start /b paddlespeech_server start --config_file ./conf/tts_online_application.yaml > %log_path%\server_tts_online_http.log 2>&1
 call :timeoutFun 90
 
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol http --input "我认为跑步最重要的就是给我带来了身体健康" --output output.wav
@@ -56,7 +56,7 @@ set sed="C:\Program Files\Git\usr\bin\sed.exe"
 %sed% -i s/"http"/"websocket"/g ./conf/tts_online_application.yaml
 type ./conf/tts_online_application.yaml
 rem sed -i "s/device: 'cpu'/device: 'gpu:5'/g" ./conf/tts_online_application.yaml
-start /b paddlespeech_server start --config_file ./conf/tts_online_application.yaml > log\server_tts_online_websocket.log  2>&1
+start /b paddlespeech_server start --config_file ./conf/tts_online_application.yaml > %log_path%\server_tts_online_websocket.log  2>&1
 call :timeoutFun 90
 
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port 8092 --protocol websocket --input "我认为跑步最重要的就是给我带来了身体健康" --output output.wav
@@ -68,7 +68,7 @@ cd ../streaming_asr_server
 wget -c https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav https://paddlespeech.bj.bcebos.com/PaddleAudio/en.wav
 
 rem sed -i "s/device: 'cpu' /device: 'gpu:5'/g"  ./conf/ws_conformer_wenetspeech_application.yaml
-start /b paddlespeech_server start --config_file ./conf/ws_conformer_wenetspeech_application.yaml  > log\asr_online_websockert.log 2>&1
+start /b paddlespeech_server start --config_file ./conf/ws_conformer_wenetspeech_application.yaml  > %log_path%\asr_online_websockert.log 2>&1
 call :timeoutFun 60
 
 paddlespeech_client asr_online --server_ip 127.0.0.1 --port 8090 --input ./zh.wav
