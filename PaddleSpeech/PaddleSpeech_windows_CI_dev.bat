@@ -76,6 +76,7 @@ call :printFun asr_online_websockert
 call :killFun
 
 rem return script dir
+echo %~dp0
 cd %~dp0
 
 rem result 
