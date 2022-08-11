@@ -75,6 +75,9 @@ paddlespeech_client asr_online --server_ip 127.0.0.1 --port 8090 --input ./zh.wa
 call :printFun asr_online_websockert
 call :killFun
 
+rem return script dir
+cd %~dp0
+
 rem result 
 findstr "failed" %log_path%\result.log >nul
 if %errorlevel%==0 (
