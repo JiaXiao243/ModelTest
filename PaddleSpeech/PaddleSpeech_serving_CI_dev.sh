@@ -133,7 +133,7 @@ paddlespeech_client text --server_ip 127.0.0.1 --port $rnd --input "我认为跑
 printFun text_offline
 
 displayFun $log_path/server_offline.log server_offline
-killFun
+# killFun
 
 
 ## online_tts
@@ -148,7 +148,7 @@ sleep 90
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port $rnd --protocol http --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_online_http
 displayFun $log_path/server_tts_online_http.log server_tts_online_http
-killFun
+# killFun
 
 # websocket
 sed -i 's/http/websocket/g' ./conf/tts_online_application.yaml
@@ -159,7 +159,7 @@ sleep 90
 paddlespeech_client tts_online --server_ip 127.0.0.1 --port $rnd --protocol websocket --input "您好，欢迎使用百度飞桨语音合成服务。" --output output.wav
 printFun tts_online_websockert
 displayFun $log_path/server_tts_online_websocket.log server_tts_online_websocket
-killFun
+# killFun
 
 
 ### online_asr
@@ -179,7 +179,7 @@ sleep 90
 paddlespeech_client asr_online --server_ip 127.0.0.1 --port $rnd --input ./zh.wav
 printFun asr_online_websockert 
 displayFun $log_path/asr_online_websockert.log asr_online_websockert
-killFun
+# killFun
 
 # result
 num=`cat $log_path/result.log | grep "failed" | wc -l`
