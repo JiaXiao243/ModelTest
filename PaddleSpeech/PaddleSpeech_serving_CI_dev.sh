@@ -91,6 +91,8 @@ python -m pip install .
 python -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
 killFun
+unset http_proxy
+unset https_proxy
 cd demos/speech_server
 
 if [ ! -f "zh.wav" ]; then
